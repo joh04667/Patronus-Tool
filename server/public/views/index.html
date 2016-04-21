@@ -9,29 +9,72 @@
     <script src="assets/scripts/client.min.js"></script>
   </head>
   <body>
-  <div ng-controller="Magic as wizard">
-    <div ng-controller="PeopleInputController as people" class="col-md-2">
+  <div ng-controller="Main">
+    <div ng-controller="PeopleInputController" class="col-md-2">
 
      <form>
       <h5>First Name</h5>
-      <input type="text" ng-model="people.person.firstName" placeholder="First Name" require="required">
+      <input type="text" ng-model="person.first_name" placeholder="First Name" require="required">
       <h5>Last Name</h5>
-      <input type="text" ng-model="people.person.lastName" placeholder="Last Name" require="required">
-      <input type="submit" ng-click="people.postPeople()" />
+      <input type="text" ng-model="person.last_name" placeholder="Last Name" require="required">
+      <input type="submit" ng-click="postPeople()" />
 
     </form>
     </div>
 
-    <div ng-controller="PatronusInputController as patronus" class="col-md-2">
+    <div ng-controller="PatronusInputController" class="col-md-2">
      <form>
       <h5>Patronus</h5>
-      <input type="text" ng-model="patronus.patronus.patronus_name" placeholder="Patronus" require="required">
-      <input type="submit" ng-click="patronus.postPatroni()" />
+      <input type="text" ng-model="patronus.patronus_name" placeholder="Patronus" require="required">
+      <input type="submit" ng-click="postPatroni()" />
     </form>
+  </div> <!--patronus control-->
+
+  <div class="clearfix"></div>
+  <div class="well">
+
+    <div class="selectors col-md-6">
+      <div class="container">
+        <form>
+        <h3>person</h3>
+          <select ng-model="selectedPerson" ng-options='person as (person.first_name + " " + person.last_name) for person in peopleList'>
+         </select>
+
+        <h3>patronus</h3>
+          <select ng-model="selectedPatronus" ng-options='patronus as patronus.patronus_name for patronus in patroniList'>
+          </select>
+           <p>here {{selectedPerson}} {{selectedPatronus}}</p>
+       </form>
+      </div>
     </div>
 
+    <div class="patronus-list col-md-3">
+      <h2>Patronuses</h2>
+    <div class="container">
+      <ul>
+        <li ng-repeat="patronus in patroniList">
+          {{patronus.patronus_name}}
+        </li>
+      </ul>
+      </div>
+    </div>
 
-    {{wizard.patroniList}} {{wizard.peopleList}}
+  <div class="people-list col-md-3" >
+      <h2>People</h2>
+    <div class="container">
+      <ul>
+        <li ng-repeat="person in peopleList">{{person.first_name}} {{person.last_name}}</li>
+      </ul>
+      </div>
   </div>
+
+</div>
+
+
+
+<div class="clearfix"></div>
+
+
+  </div> <!--main controller-->
   </body>
 </html>

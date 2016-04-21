@@ -1,57 +1,59 @@
 var app = angular.module('MyApp', []);
 
-app.controller('Magic', ['$http', function($http){
-  var vm = this;
-  vm.patroniList = [];
-  vm.peopleList = [];
+app.controller('Main', ['$scope', '$http',  function($scope, $http) {
+  $scope.patroniList = [];
+  $scope.peopleList = [];
+  $scope.select = {};
 
-  vm.getPatroni = function (){
+  $scope.getPatroni = function (){
     $http.get('/patroni').then(function(response){
-      vm.patroniList = response.data;
+      $scope.patroniList = response.data;
     });
   };
 
-  vm.getPeople = function () {
+  $scope.getPeople = function () {
     $http.get('/people').then(function(response){
       console.log(response);
-      vm.peopleList = response.data;
+      $scope.peopleList = response.data;
     });
   };
 
 
 
-vm.getPatroni();
-vm.getPeople();
+$scope.getPatroni();
+$scope.getPeople();
 
 }]);  // :::: close controller :::: //
 
 
-app.controller('PeopleInputController', ['$http', function($http){
-  var vm = this;
-  vm.person = {};
+app.controller('PeopleInputController',['$scope', '$http',  function($scope, $http) {
+  $scope.person = {};
+  //wrap parent function in new function to ensure it doesn't assign before controller loads
+  $scope.getPeople = function() {$scope.$parent.getPeople();};
 
-  vm.postPeople = function () {
-    $http.post('/people', vm.person).then(function(response) {
-      console.log(response);
-      vm.person = {};
-      vm.getPeople();
+
+  $scope.postPeople = function () {
+    $http.post('/people', $scope.person).then(function(response) {
+      console.log('people response', response);
+      $scope.person = {};
+      $scope.getPeople();
     });
   };
-
-
 }]); // peopleinput control done
 
-app.controller('PatronusInputController', ['$scope', '$http',  function($scope, $http){
-  var vm = this;
-  vm.patronus = {};
-  vm.getPatroni = function() {$scope.$parent.getPatroni();};
 
-  vm.postPatroni = function () {
-    console.log('controller works', vm.patronus);
-    $http.post('/patroni', vm.patronus).then(function(response) {
+
+app.controller('PatronusInputController', ['$scope', '$http',  function($scope, $http){
+  $scope.patronus = {};
+  //wrap parent function in new function to ensure it doesn't assign before controller loads
+  $scope.getPatroni = function() {$scope.$parent.getPatroni();};
+
+  $scope.postPatroni = function () {
+    console.log('controller works', $scope.patronus);
+    $http.post('/patroni', $scope.patronus).then(function(response) {
       console.log(response);
-      vm.patronus = {};
-      vm.getPatroni();
+      $scope.patronus = {};
+      $scope.getPatroni();
     });
   };
 }]); // patronus input control done

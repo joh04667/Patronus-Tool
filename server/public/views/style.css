@@ -1,0 +1,11 @@
+.well {
+  overflow: auto;
+}
+
+.people-list {
+  height: 100%;
+}
+
+.patronus-list, .people-list {
+  float: right;
+}

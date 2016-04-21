@@ -1,7 +1,7 @@
 var router = require('express').Router();
 var path = require('path');
 var pg = require('pg');
-var bodyparser = require('body-parser')
+var bodyParser = require('body-parser');
 
 var connectionString = require('../db/connection').connectionString;
 
@@ -12,7 +12,7 @@ router.get('/', function(request, response) {
       console.log(err);
       response.sendStatus(500);
     } else {
-      var query = client.query('SELECT * FROM people');
+      var query = client.query('SELECT * FROM people WHERE patronus_id IS NULL');
       var results = [];
       query.on('error', function(err){
         console.log(err);
@@ -58,6 +58,7 @@ router.get('/:id', function(request, response) {
 
 // router.post
 router.post('/', function(request, response){
+  console.log('request', request.body);
   pg.connect(connectionString, function(err, client, done){
     if (err){
       console.log(err);
@@ -75,7 +76,7 @@ router.post('/', function(request, response){
       });
       query.on('end', function() {
         done();
-        respone.send(result);
+        response.send(result);
       });
 
       query.on('error', function(error) {
