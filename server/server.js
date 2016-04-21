@@ -11,10 +11,13 @@ var people = require('./routes/people');
 var patroni = require('./routes/patroni');
 
 app.use(express.static('server/public'));
+app.use(bodyParser.json());
+
 ///////////routes/////////////
 app.use('/', index);
 app.use('/people', people);
 app.use('/patroni', patroni);
+
 
 initializeDB();
 

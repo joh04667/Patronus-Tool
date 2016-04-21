@@ -1,6 +1,7 @@
 var router = require('express').Router();
 var path = require('path');
 var pg = require('pg');
+var bodyParser = require('body-parser');
 
 var connectionString = require('../db/connection').connectionString;
 
@@ -57,6 +58,7 @@ router.get('/:id', function(request, response) {
 
 // router.post
 router.post('/', function(request, response){
+  console.log('request get', request.body);
   pg.connect(connectionString, function(err, client, done){
     if (err){
       console.log(err);
@@ -73,7 +75,7 @@ router.post('/', function(request, response){
       });
       query.on('end', function() {
         done();
-        respone.send(result);
+        response.send(result);
       });
 
       query.on('error', function(error) {

@@ -1,6 +1,7 @@
 var router = require('express').Router();
 var path = require('path');
 var pg = require('pg');
+var bodyparser = require('body-parser')
 
 var connectionString = require('../db/connection').connectionString;
 
