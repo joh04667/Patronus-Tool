@@ -8,7 +8,7 @@ var port = process.env.PORT || 3000;
 
 var index = require('./routes/index');
 var people = require('./routes/people');
-var patroni = require('./routes/people');
+var patroni = require('./routes/patroni');
 
 app.use(express.static('server/public'));
 ///////////routes/////////////
