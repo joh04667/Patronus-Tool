@@ -8,11 +8,23 @@ app.controller('Main', ['$scope', '$http',  function($scope, $http) {
   $scope.selectedPerson = {};
   $scope.matchedPeople = [];
 
+  // array.sort(function(a, b){
+  //   if(a.patronus_name < b.patronus_name) return -1;
+  //   if(a.patronus_name > b.patronus_name) return 1;
+  //   return 0;
+  // }
+
   $scope.getPatroni = function (){
     $http.get('/patroni').then(function(response){
       $scope.patroniList = response.data;
+      $scope.patroniList.sort(function(a, b){
+          if(a.patronus_name < b.patronus_name) return -1;
+          if(a.patronus_name > b.patronus_name) return 1;
+          return 0;
+        });
     });
-  };
+    };
+
 
   $scope.getPeople = function () {
     $http.get('/people').then(function(response){
@@ -50,15 +62,21 @@ $scope.getPeople();
 
 
 app.controller('PeopleInputController',['$scope', '$http',  function($scope, $http) {
-  $scope.person = {};
+  $scope.person = '';
   //wrap parent function in new function to ensure it doesn't assign before controller loads
   $scope.getPeople = function() {$scope.$parent.getPeople();};
 
+/* this function allows for the entry of single name entities, like Dobby. If there is no second name
+ separated by whitespace, last_name will be an empty string */
+    parseName = function(str) {
+      console.log(str);
+      var parse = str.match(/^(\S+)\s*(\S+)?$/i);
+      return {first_name: parse[1], last_name: parse[2] ? parse[2] : ''};
+    };
 
   $scope.postPeople = function () {
-    $http.post('/people', $scope.person).then(function(response) {
-      console.log('people response', response);
-      $scope.person = {};
+    $http.post('/people', parseName($scope.person)).then(function(response) {
+      $scope.person = '';
       $scope.getPeople();
     });
   };
@@ -70,6 +88,8 @@ app.controller('PatronusInputController', ['$scope', '$http',  function($scope, 
   $scope.patronus = {};
   //wrap parent function in new function to ensure it doesn't assign before controller loads
   $scope.getPatroni = function() {$scope.$parent.getPatroni();};
+
+
 
   $scope.postPatroni = function () {
     console.log('controller works', $scope.patronus);

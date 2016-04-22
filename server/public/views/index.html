@@ -13,10 +13,9 @@
     <div ng-controller="PeopleInputController" class="col-md-2">
 
      <form>
-      <h5>First Name</h5>
-      <input type="text" ng-model="person.first_name" placeholder="First Name" required>
-      <h5>Last Name</h5>
-      <input type="text" ng-model="person.last_name" placeholder="Last Name" required>
+      <h5>New Person Name</h5>
+      <input type="text" ng-model="person" placeholder="First and Last Name" required>
+
       <input type="submit" ng-click="postPeople()" />
 
     </form>

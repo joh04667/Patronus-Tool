@@ -29,7 +29,7 @@ function initializeDB(){
       'CREATE TABLE IF NOT EXISTS people(' +
       'id SERIAL PRIMARY KEY,' +
       'first_name varchar(255) NOT NULL,' +
-      'last_name varchar(255) NOT NULL,' +
+      'last_name varchar(255),' +
       'patronus_id INT REFERENCES patroni(id));');
 
 
