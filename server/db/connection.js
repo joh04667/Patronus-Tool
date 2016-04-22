@@ -11,6 +11,7 @@ if (process.env.DATABASE_URL){
 
 function initializeDB(){
   pg.connect(connectionString, function(err, client,done){
+    console.log('connected to postgsql');
     if(err){
       console.log('Error connecting to DB!', err);
       process.exit(1);
