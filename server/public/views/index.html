@@ -10,16 +10,6 @@
   </head>
   <body>
   <div ng-controller="Main">
-    <div ng-controller="PeopleInputController" class="col-md-3 form">
-
-     <form>
-      <h5>New Person Name</h5>
-      <input type="text" ng-model="person" placeholder="First and Last Name" required>
-
-      <input type="submit" ng-click="postPeople()" />
-
-    </form>
-    </div>
 
     <div ng-controller="PatronusInputController" class="col-md-3 form">
      <form>
@@ -28,6 +18,18 @@
       <input type="submit" ng-click="postPatroni()" />
     </form>
   </div> <!--patronus control-->
+
+  <div ng-controller="PeopleInputController" class="col-md-3 form">
+
+
+   <form>
+    <h5>New Person Name</h5>
+    <input type="text" ng-model="person" placeholder="First and Last Name" required>
+
+    <input type="submit" ng-click="postPeople()" />
+
+  </form>
+</div> <!-- people control -->
 
   <div class="clearfix"></div>
   <div class="well">
