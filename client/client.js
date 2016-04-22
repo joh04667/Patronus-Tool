@@ -4,6 +4,9 @@ app.controller('Main', ['$scope', '$http',  function($scope, $http) {
   $scope.patroniList = [];
   $scope.peopleList = [];
   $scope.select = {};
+  $scope.selectedPatronus = {};
+  $scope.selectedPerson = {};
+  $scope.matchedPeople = [];
 
   $scope.getPatroni = function (){
     $http.get('/patroni').then(function(response){
@@ -14,16 +17,36 @@ app.controller('Main', ['$scope', '$http',  function($scope, $http) {
   $scope.getPeople = function () {
     $http.get('/people').then(function(response){
       console.log(response);
-      $scope.peopleList = response.data;
+      $scope.peopleList = response.data[0];
+      $scope.matchedPeople = $scope.chunk(response.data[1], 6);
     });
   };
 
+  $scope.match = function() {
+    console.log('sending', $scope.selectedPerson, $scope.selectedPatronus);
+    $http.put('/people/' + $scope.selectedPerson, $scope.selectedPatronus).then(function(response){
+      console.log(response);
+      $scope.getPeople();
+    });
+  };
 
+  $scope.chunk = function(arr, size) {
+   var newArr = [];
+      for (var i=0; i<arr.length; i+=size) {
+          newArr.push(arr.slice(i, i+size));
+      }
+   return newArr;
+};
 
 $scope.getPatroni();
 $scope.getPeople();
 
 }]);  // :::: close controller :::: //
+
+
+
+
+
 
 
 app.controller('PeopleInputController',['$scope', '$http',  function($scope, $http) {

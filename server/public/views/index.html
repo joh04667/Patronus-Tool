@@ -14,9 +14,9 @@
 
      <form>
       <h5>First Name</h5>
-      <input type="text" ng-model="person.first_name" placeholder="First Name" require="required">
+      <input type="text" ng-model="person.first_name" placeholder="First Name" required>
       <h5>Last Name</h5>
-      <input type="text" ng-model="person.last_name" placeholder="Last Name" require="required">
+      <input type="text" ng-model="person.last_name" placeholder="Last Name" required>
       <input type="submit" ng-click="postPeople()" />
 
     </form>
@@ -25,7 +25,7 @@
     <div ng-controller="PatronusInputController" class="col-md-2">
      <form>
       <h5>Patronus</h5>
-      <input type="text" ng-model="patronus.patronus_name" placeholder="Patronus" require="required">
+      <input type="text" ng-model="patronus.patronus_name" placeholder="Patronus" required>
       <input type="submit" ng-click="postPatroni()" />
     </form>
   </div> <!--patronus control-->
@@ -35,16 +35,21 @@
 
     <div class="selectors col-md-6">
       <div class="container">
+
+        <!-- match form -->
         <form>
         <h3>person</h3>
-          <select ng-model="selectedPerson" ng-options='person as (person.first_name + " " + person.last_name) for person in peopleList'>
+          <select ng-model="selectedPerson" required ng-options='person.id as (person.first_name + " " + person.last_name) for person in peopleList'>
          </select>
 
         <h3>patronus</h3>
-          <select ng-model="selectedPatronus" ng-options='patronus as patronus.patronus_name for patronus in patroniList'>
+          <select ng-model="selectedPatronus" required ng-options='patronus as patronus.patronus_name for patronus in patroniList'>
           </select>
-           <p>here {{selectedPerson}} {{selectedPatronus}}</p>
+
+          <input type="submit" class="btn btn-default" ng-click="match()"/>
        </form>
+
+
       </div>
     </div>
 
@@ -73,6 +78,14 @@
 
 
 <div class="clearfix"></div>
+
+<h4>Matches</h4>
+<div class="well" ng-repeat="persons in matchedPeople">
+  <div class="col-md-5 clearfix" ng-repeat="people in persons">
+  <h5>{{people.first_name}} {{people.last_name}}'s Patronus is a:</h5>
+  <h4>{{people.patronus_name}}</h4>
+ </div>
+</div>
 
 
   </div> <!--main controller-->

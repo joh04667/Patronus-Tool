@@ -12,49 +12,60 @@ router.get('/', function(request, response) {
       console.log(err);
       response.sendStatus(500);
     } else {
-      var query = client.query('SELECT * FROM people WHERE patronus_id IS NULL');
-      var results = [];
-      query.on('error', function(err){
+      var unmatched = [];
+      var matched = [];
+      var unmatchedQuery = client.query('SELECT * FROM people WHERE patronus_id IS NULL;');
+      var matchedQuery = client.query('SELECT * FROM people JOIN patroni ON patronus_id = patroni.id  WHERE patronus_id IS NOT NULL;');
+
+      unmatchedQuery.on('error', function(err){
         console.log(err);
         done();
         response.sendStatus(500);
       });
-      query.on('row', function(rowData){
-        results.push(rowData);
-      });
-      query.on('end', function(){
-        response.send(results);
+      matchedQuery.on('error', function(err){
+        console.log(err);
         done();
+        response.sendStatus(500);
+      });
+
+      unmatchedQuery.on('row', function(rowData){
+        unmatched.push(rowData);
+      });
+      unmatchedQuery.on('end', function(){
+        matchedQuery.on('row', function(rowData){
+          matched.push(rowData);
+        });
+        matchedQuery.on('end', function(){
+          response.send([unmatched, matched]);
+          done();
+        });
       });
     }
   });
 });
 
-// get a single person
-router.get('/:id', function(request, response) {
-  console.log('Got person:', request.params.id);
+// update a person
+router.put('/:id', function(request, response) {
+  console.log('Got person:', request.params.id, 'with patronus', request.body);
   pg.connect(connectionString, function(err, client, done){
     if (err){
       console.log(err);
       response.sendStatus(500);
     } else {
-  var query = client.query('SELECT * FROM people WHERE id =' + request.params.id);
-  var results = [];
+  var query = client.query('UPDATE people SET patronus_id =($1) WHERE id =($2)', [request.body.id,  request.params.id]);
+  console.log('query is', query);
+
   query.on('error', function(err){
     console.log(err);
     done();
     response.sendStatus(500);
   });
-  query.on('row', function(rowData){
-    results.push(rowData);
-  });
-  query.on('end', function(){
-    response.send(results);
+
+    response.send('updated');
     done();
+   }
   });
-}
-});
-});
+ });
 
 // router.post
 router.post('/', function(request, response){
@@ -88,4 +99,6 @@ router.post('/', function(request, response){
     }
   });
 });
+
+
 module.exports = router;
