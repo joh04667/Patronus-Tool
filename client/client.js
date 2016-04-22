@@ -18,7 +18,7 @@ app.controller('Main', ['$scope', '$http',  function($scope, $http) {
     $http.get('/people').then(function(response){
       console.log(response);
       $scope.peopleList = response.data[0];
-      $scope.matchedPeople = $scope.chunk(response.data[1], 6);
+      $scope.matchedPeople = $scope.chunk(response.data[1], 4);
     });
   };
 

@@ -80,8 +80,8 @@
 <div class="clearfix"></div>
 
 <h4>Matches</h4>
-<div class="well" ng-repeat="persons in matchedPeople">
-  <div class="col-md-5 clearfix" ng-repeat="people in persons">
+<div class="well matchrow" ng-repeat="persons in matchedPeople">
+  <div class="matches col-md-3 clearfix" ng-repeat="people in persons">
   <h5>{{people.first_name}} {{people.last_name}}'s Patronus is a:</h5>
   <h4>{{people.patronus_name}}</h4>
  </div>

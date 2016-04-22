@@ -18,16 +18,20 @@ function initializeDB(){
       console.log('Error connecting to DB!', err);
       process.exit(1);
     } else {
+
+        var query = client.query(
+      'CREATE TABLE IF NOT EXISTS patroni(' +
+      'id SERIAL PRIMARY KEY,' +
+      'patronus_name varchar(255) NOT NULL)');
+
       var query2 = client.query(
+
       'CREATE TABLE IF NOT EXISTS people(' +
       'id SERIAL PRIMARY KEY,' +
       'first_name varchar(255) NOT NULL,' +
       'last_name varchar(255) NOT NULL,' +
       'patronus_id INT REFERENCES patroni(id));');
 
-      var query = client.query('CREATE TABLE IF NOT EXISTS patroni(' +
-      'id SERIAL PRIMARY KEY,' +
-      'patronus_name varchar(255) NOT NULL)');
 
       query.on('end', function(){
         console.log('successfully ensured people exists');

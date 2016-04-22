@@ -9,3 +9,18 @@
 .patronus-list, .people-list {
   float: right;
 }
+
+.matches {
+  height: 90%;
+  text-align: center;
+  padding: 15px;
+  border-left: 1px solid black;
+}
+
+.matches > h4 {
+  margin-top: 15px;
+}
+
+.matchrow {
+  padding: 10px;
+}
