@@ -1,3 +1,9 @@
+.form {
+  float: right;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
 .well {
   overflow:hidden;
 }
@@ -15,6 +21,7 @@
   text-align: center;
   padding: 15px;
   border-left: 1px solid black;
+  border-right:1px solid black;
 }
 
 .matches > h4 {
